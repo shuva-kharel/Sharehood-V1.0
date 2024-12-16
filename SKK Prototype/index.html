@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sharehood</title>
+    <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;600&display=swap" rel="stylesheet"> 
+    <style>
+        /* Existing styles */
+        body {
+            font-family: 'Exo 2', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(to bottom, #f9f9f9, #e8f5e9);
+        }
+        header {
+            background-color: #4CAF50;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        header h1 {
+            font-size: 28px;
+            margin: 0;
+        }
+        header nav {
+            display: flex;
+            align-items: center;
+        }
+        header nav a {
+            color: white;
+            text-decoration: none;
+            margin: 0 15px;
+            font-size: 16px;
+            transition: color 0.3s ease;
+        }
+        header nav a:hover {
+            color: #dff3d8;
+        }
+        .location-select {
+            background-color: white;
+            color: #4CAF50;
+            border: 2px solid #4CAF50;
+            border-radius: 20px;
+            padding: 5px 15px;
+            font-size: 14px;
+            cursor: pointer;
+            margin-right: 15px;
+            position: relative;
+        }
+        .location-dropdown {
+            display: none;
+            position: absolute;
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            top: 40px;
+            right: 0;
+            width: 200px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        .location-dropdown a {
+            padding: 10px;
+            display: block;
+            color: #4CAF50;
+            text-decoration: none;
+            font-size: 14px;
+        }
+        .location-dropdown a:hover {
+            background-color: #4CAF50;
+            color: white;
+        }
+        .profile-button, .cart-button {
+            background-color: white;
+            color: #4CAF50;
+            border: 2px solid #4CAF50;
+            border-radius: 20px;
+            padding: 5px 15px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+        .profile-button:hover, .cart-button:hover {
+            background-color: #4CAF50;
+            color: white;
+        }
+        .search-bar {
+            margin: 20px auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            max-width: 600px;
+            background: white;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .search-bar input {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 5px 0 0 5px;
+            font-size: 16px;
+            outline: none;
+        }
+        .search-bar button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 0 5px 5px 0;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+        .search-bar button:hover {
+            background-color: #45a049;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            color: #4CAF50;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .tabs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #ddd;
+        }
+        .tab {
+            padding: 10px 20px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 0 10px;
+            position: relative;
+            transition: color 0.3s ease;
+        }
+        .tab:hover {
+            color: #4CAF50;
+        }
+        .tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: -3px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50%;
+            height: 3px;
+            background-color: #4CAF50;
+            border-radius: 10px;
+        }
+        .item-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+        .item-card {
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            padding: 15px;
+            width: calc(33.33% - 20px);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+        }
+        .item-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        .item-card img {
+            max-width: 100%;
+            border-radius: 10px;
+            margin-bottom: 10px;
+        }
+        .item-card h3 {
+            font-size: 18px;
+            color: #4CAF50;
+            margin-bottom: 10px;
+        }
+        .item-card p {
+            font-size: 14px;
+            color: #555;
+        }
+        .item-card .price {
+            font-size: 18px;
+            color: #4CAF50;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+        .item-card .price span {
+            font-size: 14px;
+            color: #777;
+        }
+        .item-card .rating {
+            color: #FFD700;
+            margin: 5px 0;
+        }
+        .item-card .borrow-button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            font-size: 14px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .item-card .borrow-button:hover {
+            background-color: #45a049;
+        }
+        footer {
+            background-color: #4CAF50;
+            color: white;
+            text-align: center;
+            padding: 1rem;
+            margin-top: 20px;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Sharehood</h1>
+        <nav>
+            <a href="#">Home</a>
+            <a href="#">Categories</a>
+            <a href="#">My Items</a>
+            <button class="location-select" onclick="toggleDropdown()">Location
+                <div class="location-dropdown" id="locationDropdown">
+                    <a href="#" onclick="filterLocation('All Locations')">All Locations</a>
+                    <a href="#" onclick="filterLocation('Jytha')">Jytha</a>
+                    <a href="#" onclick="filterLocation('Patan')">Patan</a>
+                    <a href="#" onclick="filterLocation('Maitidevi')">Maitidevi</a>
+                    <a href="#" onclick="filterLocation('Bhaktapur')">Bhaktapur</a>
+                    <a href="#" onclick="filterLocation('Lalitpur')">Lalitpur</a>
+                    <a href="#" onclick="filterLocation('Thamel')">Thamel</a>
+                    <a href="#" onclick="filterLocation('Sundhara')">Sundhara</a>
+                    <a href="#" onclick="filterLocation('Maitighar')">Maitighar</a>
+                    <a href="#" onclick="filterLocation('Lagankhel')">Lagankhel</a>
+                    <a href="#" onclick="filterLocation('Kalanki')">Kalanki</a>
+                </div>
+            </button>
+            <button class="profile-button">Profile</button>
+            <button class="cart-button">Cart</button>
+        </nav>
+    </header>
+    
+    <div class="search-bar">
+        <input type="text" placeholder="Search for items...">
+        <button>Search</button>
+    </div>
+    
+    <div class="container">
+        <h2>Items for Rent</h2>
+        <div class="tabs">
+            <div class="tab active" onclick="showTab('lend')">Items to Lend</div>
+            <div class="tab" onclick="showTab('borrow')">Items to Borrow</div>
+        </div>
+
+        <div class="item-list" id="item-list">
+            <!-- Item Cards will go here based on location -->
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 Sharehood. All rights reserved.</p>
+    </footer>
+
+    <script>
+        const itemsToLend = [
+            { id: 1, name: 'Bicycle', location: 'Patan', description: 'A great bike for cycling around the city.', price: '500', image: 'https://via.placeholder.com/150', rating: 4.5 },
+            { id: 2, name: 'Camera', location: 'Maitidevi', description: 'High quality camera for photography.', price: '1000', image: 'https://via.placeholder.com/150', rating: 5 },
+            { id: 3, name: 'Tent', location: 'Bhaktapur', description: 'A camping tent for outdoor adventures.', price: '300', image: 'https://via.placeholder.com/150', rating: 4 },
+            { id: 4, name: 'Laptop', location: 'Lalitpur', description: 'A high-end laptop for work and study.', price: '700', image: 'https://via.placeholder.com/150', rating: 4.8 },
+            { id: 5, name: 'Speaker', location: 'Thamel', description: 'Portable speaker for parties.', price: '150', image: 'https://via.placeholder.com/150', rating: 4.2 }
+        ];
+        
+        const itemsToBorrow = [
+            { id: 6, name: 'Camera', location: 'Maitidevi', description: 'High quality camera for photography.', price: '1500', image: 'https://via.placeholder.com/150', rating: 4.9 },
+            { id: 7, name: 'Tent', location: 'Patan', description: 'A camping tent for outdoor adventures.', price: '400', image: 'https://via.placeholder.com/150', rating: 4.7 },
+            { id: 8, name: 'Projector', location: 'Thamel', description: 'Portable projector for presentations and movie nights.', price: '600', image: 'https://via.placeholder.com/150', rating: 4.6 },
+            { id: 9, name: 'Drone', location: 'Lalitpur', description: 'A drone with high-resolution camera.', price: '1200', image: 'https://via.placeholder.com/150', rating: 4.8 },
+            { id: 10, name: 'Microwave', location: 'Bhaktapur', description: 'High-power microwave for quick meals.', price: '350', image: 'https://via.placeholder.com/150', rating: 4.3 }
+        ];
+
+        let currentItems = itemsToLend; // Default to lend items
+        let currentLocation = '';
+
+        function toggleDropdown() {
+            const dropdown = document.getElementById('locationDropdown');
+            dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+        }
+
+        function filterLocation(location) {
+            currentLocation = location;
+            const filteredItems = currentItems.filter(item => 
+                location === 'All Locations' || item.location === location);
+            displayItems(filteredItems);
+            toggleDropdown();  // Close dropdown after selection
+        }
+
+        function showTab(tab) {
+            if (tab === 'lend') {
+                currentItems = itemsToLend;
+                document.querySelector('.tab.active').classList.remove('active');
+                document.querySelector('.tab:nth-child(1)').classList.add('active');
+            } else {
+                currentItems = itemsToBorrow;
+                document.querySelector('.tab.active').classList.remove('active');
+                document.querySelector('.tab:nth-child(2)').classList.add('active');
+            }
+            displayItems(currentItems);
+        }
+
+        function displayItems(items) {
+            const itemList = document.getElementById('item-list');
+            itemList.innerHTML = ''; // Clear previous items
+            items.forEach(item => {
+                const itemCard = document.createElement('div');
+                itemCard.classList.add('item-card');
+                itemCard.innerHTML = `
+                    <img src="${item.image}" alt="${item.name}">
+                    <h3>${item.name}</h3>
+                    <p>${item.description}</p>
+                    <div class="price">Rs ${item.price} <span>per day</span></div>
+                    <div class="rating">⭐ ${item.rating}</div>
+                    <button class="borrow-button">Borrow</button>
+                `;
+                itemList.appendChild(itemCard);
+            });
+        }
+
+        // Initial display
+        displayItems(itemsToLend);
+    </script>
+</body>
+</html>
