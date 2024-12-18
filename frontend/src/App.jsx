@@ -21,38 +21,38 @@ import { useEffect } from "react";
 
 // protect routes that require authentication
 const ProtectedRoute = ({ children }) => {
-	const { isAuthenticated, user } = useAuthStore();
+    const { isAuthenticated, user } = useAuthStore();
 
-	if (!isAuthenticated) {
-		return <Navigate to='/login' replace />;
-	}
+    if (!isAuthenticated) {
+        return <Navigate to='/login' replace />;
+    }
 
-	if (!user.isVerified) {
-		return <Navigate to='/verify-email' replace />;
-	}
+    if (!user.isVerified) {
+        return <Navigate to='/verify-email' replace />;
+    }
 
-	return children;
+    return children;
 };
 
 // redirect authenticated users to the home page
 const RedirectAuthenticatedUser = ({ children }) => {
-	const { isAuthenticated, user } = useAuthStore();
+    const { isAuthenticated, user } = useAuthStore();
 
-	if (isAuthenticated && user.isVerified) {
-		return <Navigate to='/' replace />;
-	}
+    if (isAuthenticated && user.isVerified) {
+        return <Navigate to='/' replace />;
+    }
 
-	return children;
+    return children;
 };
 
 function App() {
     const { isCheckingAuth, checkAuth, isAuthenticated } = useAuthStore();
 
-	useEffect(() => {
-		checkAuth();
-	}, [checkAuth]);
+    useEffect(() => {
+        checkAuth();
+    }, [checkAuth]);
 
-	if (isCheckingAuth) return <LoadingSpinner />;
+    if (isCheckingAuth) return <LoadingSpinner />;
 
     return (
         <Box minH={"100vh"} bg={useColorModeValue("gray.100", "gray.900")}>
@@ -88,13 +88,13 @@ function App() {
                     path='/signup'
                     element={
                         <RedirectAuthenticatedUser>
-                             <div className='min-h-screen bg-gradient-to-br from-gray-900 via-green-900 to-emerald-900 flex items-center justify-center relative overflow-hidden'>
+                            <div className='min-h-screen bg-gradient-to-br from-gray-900 via-green-900 to-emerald-900 flex items-center justify-center relative overflow-hidden'>
                                 {/* Floating shapes */}
                                 <FloatingShape color='bg-green-500' size='w-64 h-64' top='-5%' left='10%' delay={0} />
                                 <FloatingShape color='bg-emerald-500' size='w-48 h-48' top='70%' left='80%' delay={5} />
                                 <FloatingShape color='bg-lime-500' size='w-32 h-32' top='40%' left='-10%' delay={2} />
-                                    <SignUpPage />                              
-                              </div>
+                                <SignUpPage />
+                            </div>
                         </RedirectAuthenticatedUser>
                     }
                 />
@@ -102,17 +102,27 @@ function App() {
                     path='/login'
                     element={
                         <RedirectAuthenticatedUser>
-                             <div className='min-h-screen bg-gradient-to-br from-gray-900 via-green-900 to-emerald-900 flex items-center justify-center relative overflow-hidden'>
+                            <div className='min-h-screen bg-gradient-to-br from-gray-900 via-green-900 to-emerald-900 flex items-center justify-center relative overflow-hidden'>
                                 {/* Floating shapes */}
                                 <FloatingShape color='bg-green-500' size='w-64 h-64' top='-5%' left='10%' delay={0} />
                                 <FloatingShape color='bg-emerald-500' size='w-48 h-48' top='70%' left='80%' delay={5} />
                                 <FloatingShape color='bg-lime-500' size='w-32 h-32' top='40%' left='-10%' delay={2} />
-                                    <LoginPage />                              
-                              </div>
+                                <LoginPage />
+                            </div>
                         </RedirectAuthenticatedUser>
                     }
                 />
-                <Route path='/verify-email' element={<EmailVerificationPage />} />
+                <Route
+                    path='/verify-email'
+                    element={
+                        <div className='min-h-screen bg-gradient-to-br from-gray-900 via-green-900 to-emerald-900 flex items-center justify-center relative overflow-hidden'>
+                            <FloatingShape color='bg-green-500' size='w-64 h-64' top='-5%' left='10%' delay={0} />
+                            <FloatingShape color='bg-emerald-500' size='w-48 h-48' top='70%' left='80%' delay={5} />
+                            <FloatingShape color='bg-lime-500' size='w-32 h-32' top='40%' left='-10%' delay={2} />
+                            <EmailVerificationPage />
+                        </div>
+                    }
+                />
                 <Route
                     path='/forgot-password'
                     element={
@@ -122,8 +132,8 @@ function App() {
                                 <FloatingShape color='bg-green-500' size='w-64 h-64' top='-5%' left='10%' delay={0} />
                                 <FloatingShape color='bg-emerald-500' size='w-48 h-48' top='70%' left='80%' delay={5} />
                                 <FloatingShape color='bg-lime-500' size='w-32 h-32' top='40%' left='-10%' delay={2} />
-                                    <ForgotPasswordPage />                              
-                              </div>
+                                <ForgotPasswordPage />
+                            </div>
                         </RedirectAuthenticatedUser>
                     }
                 />
@@ -136,8 +146,8 @@ function App() {
                                 <FloatingShape color='bg-green-500' size='w-64 h-64' top='-5%' left='10%' delay={0} />
                                 <FloatingShape color='bg-emerald-500' size='w-48 h-48' top='70%' left='80%' delay={5} />
                                 <FloatingShape color='bg-lime-500' size='w-32 h-32' top='40%' left='-10%' delay={2} />
-                                    <ResetPasswordPage />                              
-                              </div>
+                                <ResetPasswordPage />
+                            </div>
                         </RedirectAuthenticatedUser>
                     }
                 />
@@ -145,14 +155,6 @@ function App() {
                 {/* catch all routes */}
                 <Route path='*' element={<Navigate to='/' replace />} />
             </Routes>
-
-            {!isAuthenticated && (
-                <div className='min-h-screen bg-gradient-to-br from-gray-900 via-green-900 to-emerald-900 flex items-center justify-center relative overflow-hidden'>
-                    <FloatingShape color='bg-green-500' size='w-64 h-64' top='-5%' left='10%' delay={0} />
-                    <FloatingShape color='bg-emerald-500' size='w-48 h-48' top='70%' left='80%' delay={5} />
-                    <FloatingShape color='bg-lime-500' size='w-32 h-32' top='40%' left='-10%' delay={2} />
-                </div>
-            )}
             <Toaster />
         </Box>
     );

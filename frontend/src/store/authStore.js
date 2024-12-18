@@ -5,6 +5,14 @@ const API_URL = import.meta.env.MODE === "development" ? "http://localhost:5000/
 
 axios.defaults.withCredentials = true;
 
+axios.get('http://localhost:5000/api/products/my-products')
+    .then(response => {
+        console.log(response.data);
+    })
+    .catch(error => {
+        console.error("There was an error!", error);
+    });
+
 export const useAuthStore = create((set) => ({
 	user: null,
 	isAuthenticated: false,

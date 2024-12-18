@@ -39,10 +39,12 @@ const DashboardPage = () => {
 					<h3 className='text-xl font-semibold text-green-400 mb-3'>Profile Information</h3>
 					<p className='${
 						colorMode === "light" ? "bg-gray-200 border-gray-300 text-gray-900" : "bg-gray-800 border-gray-700 text-gray-100"
-					}'>{user.name}</p>
+					}'><span className='font-bold'>Name: </span>
+						{user.name}</p>
 					<p className='${
 						colorMode === "light" ? "bg-gray-200 border-gray-300 text-gray-900" : "bg-gray-800 border-gray-700 text-gray-100"
-					}'>{user.email}</p>
+					}'><span className='font-bold'>Email: </span>
+						{user.email}</p>
 				</motion.div>
 
 				{/* Account Activity */}
