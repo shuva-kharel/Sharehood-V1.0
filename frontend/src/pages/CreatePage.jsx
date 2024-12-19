@@ -8,12 +8,56 @@ const CreatePage = () => {
 		name: "",
 		price: "",
 		image: "",
+		address: "",
+		description: "",
 	});
 	const toast = useToast();
 
 	const { createProduct } = useProductStore();
 
+	// Validate inputs before submitting
 	const handleAddProduct = async () => {
+		// Check if all required fields are filled and have valid lengths
+		if (!newProduct.name || !newProduct.price || !newProduct.image || !newProduct.address) {
+			toast({
+				title: "Error",
+				description: "Please fill in all required fields (Name, Price, Image and Address).",
+				status: "error",
+				isClosable: true,
+			});
+			return;
+		}
+
+		if (newProduct.name.length > 30) {
+			toast({
+				title: "Error",
+				description: "Product Name cannot exceed 30 characters.",
+				status: "error",
+				isClosable: true,
+			});
+			return;
+		}
+
+		if (newProduct.price.length > 5) {
+			toast({
+				title: "Error",
+				description: "Price cannot exceed 30 characters.",
+				status: "error",
+				isClosable: true,
+			});
+			return;
+		}0
+
+		if (newProduct.description.length > 50) {
+			toast({
+				title: "Error",
+				description: "Description cannot exceed 50 characters.",
+				status: "error",
+				isClosable: true,
+			});
+			return;
+		}
+
 		const { success, message } = await createProduct(newProduct);
 		if (!success) {
 			toast({
@@ -30,31 +74,34 @@ const CreatePage = () => {
 				isClosable: true,
 			});
 		}
-		setNewProduct({ name: "", price: "", image: "" });
+		setNewProduct({ name: "", price: "", image: "", address: "", description: "" });
 	};
 
 	return (
-		
-		<Container maxW={"container.sm"} style={{marginTop: 150}}>
+		<Container maxW={"container.sm"} style={{ marginTop: 150 }}>
 			<VStack spacing={8}>
-				<Heading as={"h1"} size={"2xl"} textAlign={"center"} mb={8} style={{marginBottom: 20}} >
+				<Heading as={"h1"} size={"2xl"} textAlign={"center"} mb={8} style={{ marginBottom: 20 }}>
 					Create New Product
 				</Heading>
 
 				<Box w={"full"} bg={useColorModeValue("white", "gray.800")} p={6} rounded={"lg"} shadow={"md"}>
 					<VStack spacing={4}>
 						<Input
-							placeholder='Product Name'
-							name='name'
+							placeholder="Product Name"
+							name="name"
 							value={newProduct.name}
-							onChange={(e) => setNewProduct({ ...newProduct, name: e.target.value })}
+							onChange={(e) =>
+								setNewProduct({ ...newProduct, name: e.target.value })
+							}
 						/>
 						<Input
-							placeholder='Price'
-							name='price'
-							type='number'
+							placeholder="Price"
+							name="price"
+							type="number"
 							value={newProduct.price}
-							onChange={(e) => setNewProduct({ ...newProduct, price: e.target.value })}
+							onChange={(e) =>
+								setNewProduct({ ...newProduct, price: e.target.value })
+							}
 						/>
 						<Input
 							placeholder='Image URL'
@@ -62,8 +109,24 @@ const CreatePage = () => {
 							value={newProduct.image}
 							onChange={(e) => setNewProduct({ ...newProduct, image: e.target.value })}
 						/>
+						<Input
+							placeholder="Address"
+							name="address"
+							value={newProduct.address}
+							onChange={(e) =>
+								setNewProduct({ ...newProduct, address: e.target.value })
+							}
+						/>
+						<Input
+							placeholder="Description"
+							name="description"
+							value={newProduct.description}
+							onChange={(e) =>
+								setNewProduct({ ...newProduct, description: e.target.value })
+							}
+						/>
 
-						<Button colorScheme='blue' onClick={handleAddProduct} w='full'>
+						<Button colorScheme="blue" onClick={handleAddProduct} w="full">
 							Add Product
 						</Button>
 					</VStack>
@@ -72,4 +135,5 @@ const CreatePage = () => {
 		</Container>
 	);
 };
+
 export default CreatePage;

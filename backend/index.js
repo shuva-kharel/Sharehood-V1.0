@@ -20,9 +20,8 @@ const __dirname = path.resolve();
 
 const allowedOrigins = [
 	'http://localhost:5173', 
-	'https://e2ea-120-89-104-51.ngrok-free.app',
-	'http://localhost:5174'
-  ];
+	'https://4a32-103-181-227-30.ngrok-free.app'
+];
   
   const corsOptions = {
 	origin: function (origin, callback) {

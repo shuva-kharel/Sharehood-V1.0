@@ -4,6 +4,8 @@ import axios from "axios";
 const API_URL = import.meta.env.MODE === "development" ? "http://localhost:5000/api/auth" : "/api/auth";
 
 axios.defaults.withCredentials = true;
+axios.defaults.withCredentials = true;
+
 
 axios.get('http://localhost:5000/api/products/my-products')
     .then(response => {
@@ -11,7 +13,7 @@ axios.get('http://localhost:5000/api/products/my-products')
     })
     .catch(error => {
         console.error("There was an error!", error);
-    });
+});
 
 export const useAuthStore = create((set) => ({
 	user: null,

@@ -13,7 +13,7 @@ export const getProducts = async (req, res) => {
 
 export const myProducts = async (req, res) => {
     try {
-        const userId = req.user._id; // Assuming you have user authentication and user ID is in req.user
+        const userId = req.userId; // Assuming you have user authentication and user ID is in req.user
         const products = await Product.find({ userId });
         res.status(200).json({ success: true, data: products });
     } catch (error) {
@@ -25,13 +25,13 @@ export const myProducts = async (req, res) => {
 export const createProduct = async (req, res) => {
     const product = req.body; // user will send this data
 
-    if (!product.name || !product.price || !product.image) {
+    if (!product.name || !product.price || !product.image || !product.address) {
         return res.status(400).json({ success: false, message: "Please provide all fields" });
     }
 
     const newProduct = new Product({
         ...product,
-        userId: req.user._id // Assuming you have user authentication and user ID is in req.user
+        userId: req.userId // Assuming you have user authentication and user ID is in req.user
     });
 
     try {
