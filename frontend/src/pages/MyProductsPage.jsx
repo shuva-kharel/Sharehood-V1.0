@@ -1,7 +1,7 @@
 import { Container, SimpleGrid, Text, VStack, Spinner } from "@chakra-ui/react";
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
-import { useProductStore } from "../store/product";
+import { useProductStore } from "../store/useProductStore";
 import ProductCard from "../components/MyProductCard";
 
 const YourProductsPage = () => {

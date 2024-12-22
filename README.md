@@ -1,41 +1,42 @@
-# Setup Guide
+# ✨ Full Stack Realtime Chat App ✨
 
-## 1. Install Node Modules
-Navigate to the `Sharehood-V1.0`
-```bash
-npm install
-```
-Then
-Navigate to the `frontend` directory and install the dependencies:
-```bash
-cd frontend
-npm install
-```
+![Demo App](/frontend/public/screenshot-for-readme.png)
 
-## 2. Add .env File
-```env
-MONGO_URI=<MONGO_URI>
-PORT=5000
-JWT_SECRET=mysecretkey
+[Video Tutorial on Youtube](https://youtu.be/ntKkVrQqBYY)
+
+Highlights:
+
+- 🌟 Tech stack: MERN + Socket.io + TailwindCSS + Daisy UI
+- 🎃 Authentication && Authorization with JWT
+- 👾 Real-time messaging with Socket.io
+- 🚀 Online user status
+- 👌 Global state management with Zustand
+- 🐞 Error handling both on the server and on the client
+- ⭐ At the end Deployment like a pro for FREE!
+- ⏳ And much more!
+
+### Setup .env file
+
+```js
+MONGODB_URI=...
+PORT=5001
+JWT_SECRET=...
+
+CLOUDINARY_CLOUD_NAME=...
+CLOUDINARY_API_KEY=...
+CLOUDINARY_API_SECRET=...
+
 NODE_ENV=development
-
-EMAIL_USER=<email>
-EMAIL_PASS=<pass>
-
-
-CLIENT_URL= http://localhost:5173
-```
-Replace <MONGO_API> with your actual API keys.
-
-## 3. Run Frontend
-```bash
-cd frontend
-npm run dev
 ```
 
+### Build the app
 
-## 4. Run Backend
-(open another termainal on `Sharehood-V1.0`)
-```bash
-npm run dev
+```shell
+npm run build
+```
+
+### Start the app
+
+```shell
+npm start
 ```

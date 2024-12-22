@@ -1,6 +1,6 @@
 import { Box, Button, Container, Heading, Input, useColorModeValue, useToast, VStack } from "@chakra-ui/react";
 import { useState } from "react";
-import { useProductStore } from "../store/product";
+import { useProductStore } from "../store/useProductStore";
 import { useColorMode } from "@chakra-ui/react";  // Import useColorMode to manage theme toggle
 
 const CreatePage = () => {
@@ -16,7 +16,18 @@ const CreatePage = () => {
 	const { createProduct } = useProductStore();
 
 	// Validate inputs before submitting
-	const handleAddProduct = async () => {
+		const handleAddProduct = async () => {
+			const userId = localStorage.getItem("user"); // Retrieve userId
+    	if (!userId) {
+    	    toast({
+    	        title: "Error",
+    	        description: "User ID is missing. Please log in again.",
+    	        status: "error",
+    	        isClosable: true,
+    	    });
+    	    return;
+    	}
+	
 		// Check if all required fields are filled and have valid lengths
 		if (!newProduct.name || !newProduct.price || !newProduct.image || !newProduct.address) {
 			toast({
@@ -58,7 +69,7 @@ const CreatePage = () => {
 			return;
 		}
 
-		const { success, message } = await createProduct(newProduct);
+		const { success, message } = await createProduct(newProduct, userId);
 		if (!success) {
 			toast({
 				title: "Error",

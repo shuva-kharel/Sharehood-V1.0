@@ -1,13 +1,13 @@
 import { Box, Button, Heading, HStack, Image, Text, useColorModeValue } from "@chakra-ui/react";
 import { Link } from "react-router-dom"; // For redirection
-import { useProductStore } from "../store/product";
+import { useProductStore } from "../store/useProductStore";
 
 const ProductCard = ({ product }) => {
 	const textColor = useColorModeValue("gray.600", "gray.200");
 	const bg = useColorModeValue("white", "gray.800");
 
 	// You can add borrow logic here once the borrow link is available
-	const borrowLink = `/borrow/${product._id}`; // Placeholder for future borrow link
+	const borrowLink = `/chat`; // Placeholder for future borrow link
 
 	return (
 		<Box
@@ -49,8 +49,7 @@ const ProductCard = ({ product }) => {
 
 				<HStack spacing={2}>
 					{/* Borrow button that redirects to the borrow page */}
-					{/* <Link to={borrowLink}> */}
-					<Link>
+					<Link to={borrowLink}>
 						<Button colorScheme='teal' size='sm'>
 							Borrow
 						</Button>
