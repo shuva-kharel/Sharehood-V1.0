@@ -3,7 +3,13 @@ import User from "../models/user.model.js";
 
 export const protectRoute = async (req, res, next) => {
   try {
-    const token = req.cookies.jwt;
+    // First, check the Authorization header for the token
+    const tokenFromHeader = req.header("Authorization")?.split(" ")[1];
+    
+    // If no token in the header, fall back to cookies
+    const tokenFromCookie = req.cookies.jwt;
+
+    const token = tokenFromHeader || tokenFromCookie;
 
     if (!token) {
       return res.status(401).json({ message: "Unauthorized - No Token Provided" });
@@ -21,7 +27,7 @@ export const protectRoute = async (req, res, next) => {
       return res.status(404).json({ message: "User not found" });
     }
 
-    req.user = user; // Storing user object in req.user
+    req.user = user; // Store user in req.user
 
     next();
   } catch (error) {

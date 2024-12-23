@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useAuthStore } from "../store/useAuthStore";
 import AuthImagePattern from "../components/AuthImagePattern";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";  // Use useNavigate for redirection
 import { Eye, EyeOff, Loader2, Lock, Mail, MessageSquare } from "lucide-react";
 
 const LoginPage = () => {
@@ -11,10 +11,17 @@ const LoginPage = () => {
     password: "",
   });
   const { login, isLoggingIn } = useAuthStore();
+  const navigate = useNavigate();  // Hook for redirection
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await login(formData); // Call the login function from the store
+    await login(formData);  // Call the login function from the store
+
+    // If login is successful, redirect the user
+    if (!isLoggingIn) {
+      // Redirect to dashboard or home page after successful login
+      navigate("/");
+    }
   };
 
   return (
@@ -116,4 +123,5 @@ const LoginPage = () => {
     </div>
   );
 };
+
 export default LoginPage;
