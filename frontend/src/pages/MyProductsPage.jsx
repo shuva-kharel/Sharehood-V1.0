@@ -25,7 +25,7 @@ const MyProductPage = () => {
     fetchProducts(); // Fetch all products when the page loads
   }, [fetchProducts]);
 
-  // Function to toggle dropdown visibility
+  // Function to toggle dropdown visibilityssss
   const toggleDropdown = () => {
     setDropdownOpen(!dropdownOpen);
   };

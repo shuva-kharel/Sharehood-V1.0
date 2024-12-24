@@ -52,50 +52,50 @@ export const useProductStore = create((set) => ({
         } catch (error) {
             set({ isLoading: false, error: error.message });
         }
-    },
+    },    
 
-    // Fetch products specific to the authenticated user
-    fetchMyProducts: async () => {
-        set({ isLoading: true, error: null }); // Set loading state before fetching
-        try {
-            const res = await fetch(`${BASE_URL}/api/products/my-products`); // Endpoint for user's products
-            const data = await res.json();
-            set({ myProducts: data.data, isLoading: false });
-        } catch (error) {
-            set({ isLoading: false, error: error.message });
-        }
-    },
-
-    deleteProduct: async (pid) => {
+    deleteProduct: async (pid, token) => {
         const res = await fetch(`${BASE_URL}/api/products/${pid}`, {
             method: "DELETE",
+            headers: {
+                Authorization: `Bearer ${token}`, // Include the token here
+                "Content-Type": "application/json",
+            },
         });
         const data = await res.json();
         if (!data.success) return { success: false, message: data.message };
-
+    
         // Update UI immediately without refresh
-        set((state) => ({ products: state.products.filter((product) => product._id !== pid) }));
+        set((state) => ({ myProducts: state.myProducts.filter((product) => product._id !== pid) }));
         return { success: true, message: data.message };
     },
-
+    
     updateProduct: async (pid, updatedProduct) => {
+        const token = localStorage.getItem("token"); // Get the token from localStorage
+    
+        if (!token) {
+            return { success: false, message: "No token provided. Please log in again." };
+        }
+    
         const res = await fetch(`${BASE_URL}/api/products/${pid}`, {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`, // Add the token in the Authorization header
             },
             body: JSON.stringify(updatedProduct),
         });
+    
         const data = await res.json();
         if (!data.success) return { success: false, message: data.message };
-
+    
         // Update UI immediately without refresh
         set((state) => ({
-            products: state.products.map((product) => (product._id === pid ? data.data : product)),
+            myProducts: state.myProducts.map((product) => (product._id === pid ? data.data : product)),
         }));
-
+    
         return { success: true, message: data.message };
-    },
+    },    
 }));
 
 export default useProductStore;

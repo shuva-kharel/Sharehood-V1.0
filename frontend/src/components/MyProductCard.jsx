@@ -26,19 +26,31 @@ import {
 import { useProductStore } from "../store/useProductStore";
 import { useState } from "react";
 
-const MyProductCard = ({ product, fetchMyProducts }) => {
+const MyProductCard = ({ product }) => {
 	const [updatedProduct, setUpdatedProduct] = useState(product);
 	const [isError, setIsError] = useState(false);
 
 	const textColor = useColorModeValue("gray.600", "gray.200");
 	const bg = useColorModeValue("white", "gray.800");
 
-	const { deleteProduct, updateProduct } = useProductStore();
+	const { deleteProduct, updateProduct, fetchProducts } = useProductStore();
 	const toast = useToast();
 	const { isOpen, onOpen, onClose } = useDisclosure();
 
 	const handleDeleteProduct = async (pid) => {
-		const { success, message } = await deleteProduct(pid);
+		const token = localStorage.getItem("token");
+		if (!token) {
+			toast({
+				title: "Error",
+				description: "No token provided. Please log in again.",
+				status: "error",
+				duration: 3000,
+				isClosable: true,
+			});
+			return;
+		}
+	
+		const { success, message } = await deleteProduct(pid, token); // Pass token to the function
 		if (!success) {
 			toast({
 				title: "Error",
@@ -55,10 +67,10 @@ const MyProductCard = ({ product, fetchMyProducts }) => {
 				duration: 3000,
 				isClosable: true,
 			});
-			fetchMyProducts();  // Re-fetch the products after deletion
+			fetchProducts(); // Re-fetch the products after deletion
 		}
 	};
-
+	
 	const handleUpdateProduct = async (pid, updatedProduct) => {
 		// Check for required fields
 		const { name, price, image, address, description } = updatedProduct;
@@ -67,7 +79,7 @@ const MyProductCard = ({ product, fetchMyProducts }) => {
 			return;
 		}
 		setIsError(false);
-
+	
 		const { success, message } = await updateProduct(pid, updatedProduct);
 		onClose();
 		if (!success) {
@@ -86,7 +98,7 @@ const MyProductCard = ({ product, fetchMyProducts }) => {
 				duration: 3000,
 				isClosable: true,
 			});
-			fetchMyProducts();  // Re-fetch the products after update
+			fetchProducts();  // Re-fetch the products after update
 		}
 	};
 
