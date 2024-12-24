@@ -8,6 +8,9 @@ import {
   ProfilePage,
   CreatePage,
   MyProductsPage,
+  CreateProductReqPage,
+  ProductRequestsPage,
+  MyProductRequestsPage
 } from "./pages";
 
 import { Routes, Route, Navigate } from "react-router-dom";
@@ -17,6 +20,7 @@ import { useEffect } from "react";
 
 import { Loader } from "lucide-react";
 import { Toaster } from "react-hot-toast";
+import ProductRequests from "./pages/ProductRequestPage";
 
 const App = () => {
   const { authUser, checkAuth, isCheckingAuth, onlineUsers } = useAuthStore();
@@ -51,6 +55,9 @@ const App = () => {
         <Route path="/profile" element={authUser ? <ProfilePage /> : <Navigate to="/login" />} />
         <Route path="/create" element={authUser ? <CreatePage /> : <Navigate to="/login" />} />
         <Route path="/my-products" element={authUser ? <MyProductsPage /> : <Navigate to="/login" />} />
+        <Route path="/create-product-request" element={authUser ? <CreateProductReqPage /> : <Navigate to="/login" />} />
+        <Route path="/product-request" element={authUser ? <ProductRequestsPage /> : <Navigate to="/login" />} />
+        <Route path="/my-product-request" element={authUser ? <MyProductRequestsPage /> : <Navigate to="/login" />} />
       </Routes>
 
       <Toaster />

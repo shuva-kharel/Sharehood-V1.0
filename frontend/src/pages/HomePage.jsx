@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import ProductCard from "../components/HomeProductCard";
 import useProductStore from '../store/useProductStore';
 import { useThemeStore } from "../store/useThemeStore";
+import {  } from "@chakra-ui/icons";
 
 const HomePage = () => {
   const { fetchProducts, filteredProducts, products } = useProductStore();
@@ -143,15 +144,6 @@ const HomePage = () => {
                   <ProductCard key={product._id} product={product} />
                 ))
               )}
-            </div>
-
-            <div className="fixed bottom-8 right-8 z-50">
-              <Link
-                to="/create"
-                className="bg-gradient-to-r from-cyan-400 to-blue-500 hover:from-cyan-500 hover:to-blue-600 text-white rounded-full p-4 shadow-lg"
-              >
-                +
-              </Link>
             </div>
           </div>
         </div>

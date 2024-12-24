@@ -6,3 +6,6 @@ export { default as MyProductsPage } from "./MyProductsPage";
 export { default as SettingsPage } from "./SettingsPage";
 export { default as ChatPage } from "./ChatPage";
 export { default as ProfilePage } from "./ProfilePage";
+export { default as ProductRequestsPage } from "./ProductRequestPage";
+export { default as MyProductRequestsPage } from "./MyProductRequestsPage";
+export { default as CreateProductReqPage } from "./CreateProductReqPage";
