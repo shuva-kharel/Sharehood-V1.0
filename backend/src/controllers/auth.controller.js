@@ -63,7 +63,23 @@ export const login = async (req, res) => {
     }
 
     const token = generateToken(user._id, res); // Generate the token
-    // Now send the token along with user details in response
+
+    // Set both jwt and userId cookies
+    res.cookie("jwt", token, {
+      httpOnly: true, // Make sure the token is only accessible by the server
+      path: "/",
+      secure: true,
+      sameSite: "Strict",
+    });
+
+    res.cookie("userId", user._id, {
+      httpOnly: true, // You can use this or not depending on the use case
+      path: "/",
+      secure: true,
+      sameSite: "Strict",
+    });
+
+    // Send the response with user data and token
     res.status(200).json({
       _id: user._id,
       fullName: user.fullName,
@@ -76,6 +92,7 @@ export const login = async (req, res) => {
     res.status(500).json({ message: "Internal Server Error" });
   }
 };
+
 
 export const logout = (req, res) => {
   try {

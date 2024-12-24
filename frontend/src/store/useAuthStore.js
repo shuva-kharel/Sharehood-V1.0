@@ -48,8 +48,17 @@ export const useAuthStore = create((set, get) => ({
       const res = await axiosInstance.post("/auth/login", data);
       set({ authUser: res.data });
   
-      // Store the token in cookies using httpOnly flag
-      document.cookie = `jwt=${res.data.token}; path=/; Secure; SameSite=Strict`;
+      const { token, _id } = res.data; // Destructure token and userId (_id)
+  
+      // Store the token in cookies
+      document.cookie = `jwt=${token}; path=/; Secure; SameSite=Strict`;
+  
+      // Store the userId in cookies
+      document.cookie = `userId=${_id}; path=/; Secure; SameSite=Strict`;
+  
+      // Store the token and userId in localStorage
+      localStorage.setItem("token", token);  // Store token
+      localStorage.setItem("userId", _id);  // Store userId (_id)
   
       toast.success("Logged in successfully");
       get().connectSocket();

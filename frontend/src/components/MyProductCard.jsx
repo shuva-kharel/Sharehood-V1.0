@@ -26,7 +26,7 @@ import {
 import { useProductStore } from "../store/useProductStore";
 import { useState } from "react";
 
-const ProductCard = ({ product, fetchMyProducts }) => {
+const MyProductCard = ({ product, fetchMyProducts }) => {
 	const [updatedProduct, setUpdatedProduct] = useState(product);
 	const [isError, setIsError] = useState(false);
 
@@ -220,4 +220,4 @@ const ProductCard = ({ product, fetchMyProducts }) => {
 	);
 };
 
-export default ProductCard;
+export default MyProductCard;

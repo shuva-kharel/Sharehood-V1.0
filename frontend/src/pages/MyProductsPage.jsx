@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import ProductCard from "../components/MyProductCard";
 import useProductStore from '../store/useProductStore'; // Import the store
 
-const HomePage = () => {
+const MyProductPage = () => {
   const { fetchProducts, filteredProducts, products } = useProductStore(); // Destructure filteredProducts from the store
 
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -17,6 +17,9 @@ const HomePage = () => {
   const dropdownRef = useRef(null);
   const inputRef = useRef(null); // Ref for the location search input field
   const productInputRef = useRef(null); // Ref for the product search input field
+
+  // Retrieve userId from localStorage
+  const userId = localStorage.getItem("userId");
 
   useEffect(() => {
     fetchProducts(); // Fetch all products when the page loads
@@ -48,9 +51,10 @@ const HomePage = () => {
   // Limit to two locations to show
   const limitedLocations = filteredLocations.slice(0, 2);
 
-  // Filter products based on product search term
+  // Filter products based on product search term and userId
   const filteredProductsByName = filteredProducts.filter((product) =>
-    product.name.toLowerCase().includes(productSearchTerm.toLowerCase())
+    product.name.toLowerCase().includes(productSearchTerm.toLowerCase()) &&
+    product.userId === userId // Only include products that belong to the current user
   );
 
   // Close dropdown if clicked outside
@@ -165,4 +169,4 @@ const HomePage = () => {
   );
 };
 
-export default HomePage;
+export default MyProductPage;
