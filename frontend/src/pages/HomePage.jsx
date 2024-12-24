@@ -1,71 +1,65 @@
 import { useEffect, useState, useRef } from "react";
 import { Link } from "react-router-dom";
 import ProductCard from "../components/HomeProductCard";
-import useProductStore from '../store/useProductStore'; // Import the store
+import useProductStore from '../store/useProductStore';
+import { useThemeStore } from "../store/useThemeStore";
 
 const HomePage = () => {
-  const { fetchProducts, filteredProducts, products } = useProductStore(); // Destructure filteredProducts from the store
+  const { fetchProducts, filteredProducts, products } = useProductStore();
+  const { theme, setTheme } = useThemeStore();
 
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [selectedLocation, setSelectedLocation] = useState("All Locations");
-  const [searchTerm, setSearchTerm] = useState(""); // Search term for location
-  const [productSearchTerm, setProductSearchTerm] = useState(""); // Search term for products
+  const [searchTerm, setSearchTerm] = useState("");
+  const [productSearchTerm, setProductSearchTerm] = useState("");
 
   const locations = ["Kathmandu", "Patan", "Maitidevi", "Bhaktapur", "Lalitpur"];
 
   const buttonRef = useRef(null);
   const dropdownRef = useRef(null);
-  const inputRef = useRef(null); // Ref for the location search input field
-  const productInputRef = useRef(null); // Ref for the product search input field
+  const inputRef = useRef(null);
+  const productInputRef = useRef(null);
 
   useEffect(() => {
-    fetchProducts(); // Fetch all products when the page loads
+    fetchProducts();
   }, [fetchProducts]);
 
-  // Function to toggle dropdown visibility
   const toggleDropdown = () => {
     setDropdownOpen(!dropdownOpen);
   };
 
-  // Function to filter products by location
   const filterLocation = (location) => {
     setSelectedLocation(location);
 
-    // If "All Locations" is selected, show all products
     if (location === "All Locations") {
-      fetchProducts(); // Fetch all products again
+      fetchProducts();
     } else {
-      fetchProducts(location); // Filter products by the selected location
+      fetchProducts(location);
     }
-    setDropdownOpen(false); // Close dropdown after selection
+    setDropdownOpen(false);
   };
 
-  // Filter locations based on search term
   const filteredLocations = locations.filter((location) =>
     location.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  // Limit to two locations to show
   const limitedLocations = filteredLocations.slice(0, 2);
 
-  // Filter products based on product search term
   const filteredProductsByName = filteredProducts.filter((product) =>
     product.name.toLowerCase().includes(productSearchTerm.toLowerCase())
   );
 
-  // Close dropdown if clicked outside
   const handleClickOutside = (event) => {
     if (
       dropdownRef.current &&
       !dropdownRef.current.contains(event.target) &&
       !buttonRef.current.contains(event.target) &&
-      !inputRef.current.contains(event.target) // Add condition to close dropdown if input is clicked outside
+      !inputRef.current.contains(event.target)
     ) {
-      setDropdownOpen(false); // Close dropdown if clicked outside
+      setDropdownOpen(false);
     }
   };
 
-  // Attach and clean up the click event listener
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
@@ -74,30 +68,29 @@ const HomePage = () => {
   }, []);
 
   return (
-    <div className="h-screen bg-base-200 overflow-y-auto">
+    <div className={`h-screen overflow-y-auto ${theme === 'dark' ? 'bg-gray-900 text-white' : theme === 'light' ? 'bg-white text-black' : ''}`}>
       <div className="pt-20">
         <div className="mb-2 relative flex justify-center items-center w-full max-w-md mx-auto">
           <input
             type="text"
             placeholder="Search products by name..."
-            className="p-2 border rounded-md w-full mb-2"
+            className={`p-2 border rounded-md w-full mb-2 ${theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-base-200 text-black'}`}
             value={productSearchTerm}
-            onChange={(e) => setProductSearchTerm(e.target.value)} // Update productSearchTerm state
+            onChange={(e) => setProductSearchTerm(e.target.value)}
           />
         </div>
       </div>
       <div className="flex items-center justify-center pt-2 px-4">
-        <div className="bg-base-100 rounded-lg shadow-cl w-full max-w-6xl">
+        <div className={`bg-base-100 rounded-lg shadow-cl w-full max-w-6xl ${theme === 'dark' ? 'bg-gray-800' : 'bg-white'}`}>
           <div className="flex flex-col h-full rounded-lg overflow-hidden p-6">
-            <h1 className="text-3xl font-bold bg-gradient-to-r from-cyan-400 to-blue-500 text-transparent bg-clip-text text-center mb-8">
+            <h1 className={`text-3xl font-bold bg-gradient-to-r ${theme === 'dark' ? 'from-blue-500 to-cyan-400' : 'from-cyan-400 to-blue-500'} text-transparent bg-clip-text text-center mb-8`}>
               Items for Rent
             </h1>
 
-            {/* Location Dropdown */}
             <div className="relative mb-6 z-20">
               <button
                 ref={buttonRef}
-                className="btn btn-sm"
+                className={`btn btn-sm ${theme === 'dark' ? 'bg-gray-700 text-white' : 'bg-base-200 text-black'}`}
                 onClick={toggleDropdown}
               >
                 Location: {selectedLocation}
@@ -105,59 +98,61 @@ const HomePage = () => {
               {dropdownOpen && (
                 <div
                   ref={dropdownRef}
-                  className="absolute left-0 top-full mt-2 bg-white border rounded-lg shadow-lg w-48 p-2 z-30"
+                  className={`absolute left-0 top-full mt-2 ${theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-white text-black'} border rounded-lg shadow-lg w-48 p-2 z-30`}
                 >
-                  {/* Location Search input */}
                   <input
                     ref={inputRef}
                     type="text"
                     placeholder="Search location..."
-                    className="p-2 border rounded-md w-full mb-2"
+                    className={`p-2 border rounded-md w-full mb-2 ${theme === 'dark' ? 'bg-gray-700 text-white' : 'bg-base-200 text-black'}`}
                     value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)} // Update searchTerm state
+                    onChange={(e) => setSearchTerm(e.target.value)}
                   />
 
-                  {/* "All Locations" option */}
                   <a
                     href="#"
                     onClick={() => filterLocation("All Locations")}
-                    className="block px-4 py-2 hover:bg-gray-100"
+                    className={`block px-4 py-2 hover:bg-gray-100 ${theme === 'dark' ? 'hover:bg-gray-700' : ''}`}
                   >
                     All Locations
                   </a>
 
-                  {/* Display limited locations */}
                   {limitedLocations.length > 0 ? (
                     limitedLocations.map((location) => (
                       <a
                         href="#"
                         key={location}
                         onClick={() => filterLocation(location)}
-                        className="block px-4 py-2 hover:bg-gray-100"
+                        className={`block px-4 py-2 hover:bg-gray-100 ${theme === 'dark' ? 'hover:bg-gray-700' : ''}`}
                       >
                         {location}
                       </a>
                     ))
                   ) : (
-                    <p className="px-4 py-2 text-gray-500">No locations found</p>
+                    <p>No locations found</p>
                   )}
                 </div>
               )}
             </div>
 
-            {/* Product Search Input */}
-            {/* Display filtered products */}
-            {filteredProductsByName.length > 0 ? (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {filteredProductsByName.map((product) => (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {filteredProductsByName.length === 0 ? (
+                <p className="col-span-full text-center">No products found</p>
+              ) : (
+                filteredProductsByName.map((product) => (
                   <ProductCard key={product._id} product={product} />
-                ))}
-              </div>
-            ) : (
-              <p className="mb-2 text-xl text-center font-semibold text-gray-500" style={{ marginBottom: "500px" }}>
-                No products found{" "}
-              </p>
-            )}
+                ))
+              )}
+            </div>
+
+            <div className="fixed bottom-8 right-8 z-50">
+              <Link
+                to="/create"
+                className="bg-gradient-to-r from-cyan-400 to-blue-500 hover:from-cyan-500 hover:to-blue-600 text-white rounded-full p-4 shadow-lg"
+              >
+                +
+              </Link>
+            </div>
           </div>
         </div>
       </div>
