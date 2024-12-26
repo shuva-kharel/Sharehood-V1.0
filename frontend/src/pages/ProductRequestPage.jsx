@@ -56,13 +56,7 @@ const ProductRequestPage = () => {
                       onClick={handleChatRedirect}
                       className={`py-2 px-6 bg-gradient-to-r from-cyan-400 to-blue-500 text-white font-semibold rounded-full hover:from-cyan-500 hover:to-blue-600 transition-all duration-300`}
                     >
-                      Chat
-                    </button>
-                    <button
-                      onClick={handleAddProductRedirect}
-                      className={`py-2 px-6 bg-gradient-to-r from-green-400 to-teal-500 text-white font-semibold rounded-full hover:from-green-500 hover:to-teal-600 transition-all duration-300`}
-                    >
-                      Add Product
+                      Lend
                     </button>
                   </div>
                 </div>

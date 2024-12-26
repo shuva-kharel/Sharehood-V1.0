@@ -14,7 +14,7 @@ const HomeProductCard = ({ product }) => {
       overflow="hidden"
       transition="all 0.3s"
       _hover={{ transform: "translateY(-5px)", shadow: "xl" }}
-      bg={currentTheme.background}
+      bg={currentTheme.dimBackground}
     >
       <Image
         src={product.image}
@@ -48,9 +48,10 @@ const HomeProductCard = ({ product }) => {
         <HStack spacing={2}>
           <Link to={`/chat`}>
             <Button
-              colorScheme={currentTheme.button}
+              bg={currentTheme.button}
               size="sm"
               color={currentTheme.buttonText}
+              _hover={{ bg: currentTheme.borrowButton_hover }}
             >
               Borrow
             </Button>

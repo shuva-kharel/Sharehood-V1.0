@@ -3,11 +3,13 @@ import { Link } from "react-router-dom";
 import ProductCard from "../components/HomeProductCard";
 import useProductStore from '../store/useProductStore';
 import { useThemeStore } from "../store/useThemeStore";
+import { themeMapping } from "../constants/themeMapping";
 import {  } from "@chakra-ui/icons";
 
 const HomePage = () => {
   const { fetchProducts, filteredProducts, products } = useProductStore();
-  const { theme, setTheme } = useThemeStore();
+  const { theme } = useThemeStore();
+  const currentTheme = themeMapping[theme] || themeMapping['light'];
 
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [selectedLocation, setSelectedLocation] = useState("All Locations");
@@ -70,20 +72,20 @@ const HomePage = () => {
 
   return (
     <div className={`h-screen overflow-y-auto ${theme === 'dark' ? 'bg-gray-900 text-white' : theme === 'light' ? 'bg-white text-black' : ''}`}>
-      <div className="pt-20">
-        <div className="mb-2 relative flex justify-center items-center w-full max-w-md mx-auto">
+      <div className={`pt-20`}>
+        <div className={`mb-2 relative flex justify-center items-center w-full max-w-md mx-auto`}>
           <input
             type="text"
             placeholder="Search products by name..."
             className={`p-2 border rounded-md w-full mb-2 ${theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-base-200 text-black'}`}
             value={productSearchTerm}
             onChange={(e) => setProductSearchTerm(e.target.value)}
-          />
+          /> 
         </div>
       </div>
       <div className="flex items-center justify-center pt-2 px-4">
-        <div className={`bg-base-100 rounded-lg shadow-cl w-full max-w-6xl ${theme === 'dark' ? 'bg-gray-800' : 'bg-white'}`}>
-          <div className="flex flex-col h-full rounded-lg overflow-hidden p-6">
+        <div className={`bg-base-100 rounded-lg shadow-cl w-full max-w-6xl ${theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-base-200 text-black'}`}>
+          <div className="flex flex-col h-full rounded-lg overflow-hidden p-6" >
             <h1 className={`text-3xl font-bold bg-gradient-to-r ${theme === 'dark' ? 'from-blue-500 to-cyan-400' : 'from-cyan-400 to-blue-500'} text-transparent bg-clip-text text-center mb-8`}>
               Items for Rent
             </h1>
@@ -91,7 +93,7 @@ const HomePage = () => {
             <div className="relative mb-6 z-20">
               <button
                 ref={buttonRef}
-                className={`btn btn-sm ${theme === 'dark' ? 'bg-gray-700 text-white' : 'bg-base-200 text-black'}`}
+                className={`btn btn-sm transition duration-200 ease-in-out transform ${theme === 'dark' ? 'bg-gray-700 text-white hover:bg-gray-600' : 'bg-base-100 text-black hover:bg-gray-200'}`}
                 onClick={toggleDropdown}
               >
                 Location: {selectedLocation}
@@ -99,42 +101,43 @@ const HomePage = () => {
               {dropdownOpen && (
                 <div
                   ref={dropdownRef}
-                  className={`absolute left-0 top-full mt-2 ${theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-white text-black'} border rounded-lg shadow-lg w-48 p-2 z-30`}
+                  className={`absolute left-0 top-full mt-2 ${theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-white text-black'} border border-gray-300 rounded-lg shadow-lg w-48 p-2 z-30`}
                 >
                   <input
                     ref={inputRef}
                     type="text"
                     placeholder="Search location..."
-                    className={`p-2 border rounded-md w-full mb-2 ${theme === 'dark' ? 'bg-gray-700 text-white' : 'bg-base-200 text-black'}`}
+                    className={`p-2 border border-gray-300 rounded-md w-full mb-2 ${theme === 'dark' ? 'bg-gray-700 text-white focus:bg-gray-600' : 'bg-base-200 text-black focus:bg-white'} focus:outline-none`}
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
                   />
-
+            
                   <a
                     href="#"
                     onClick={() => filterLocation("All Locations")}
-                    className={`block px-4 py-2 hover:bg-gray-100 ${theme === 'dark' ? 'hover:bg-gray-700' : ''}`}
+                    className={`block px-4 py-2 rounded-md transition duration-200 ease-in-out ${theme === 'dark' ? 'hover:bg-gray-700' : 'hover:bg-gray-100'}`}
                   >
                     All Locations
                   </a>
-
+              
                   {limitedLocations.length > 0 ? (
                     limitedLocations.map((location) => (
                       <a
                         href="#"
                         key={location}
                         onClick={() => filterLocation(location)}
-                        className={`block px-4 py-2 hover:bg-gray-100 ${theme === 'dark' ? 'hover:bg-gray-700' : ''}`}
+                        className={`block px-4 py-2 rounded-md transition duration-200 ease-in-out ${theme === 'dark' ? 'hover:bg-gray-700' : 'hover:bg-gray-100'}`}
                       >
                         {location}
                       </a>
                     ))
                   ) : (
-                    <p>No locations found</p>
+                    <p className="text-gray-500">No locations found</p>
                   )}
                 </div>
               )}
             </div>
+
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {filteredProductsByName.length === 0 ? (
