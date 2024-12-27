@@ -46,7 +46,7 @@ const HomePage = () => {
     location.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  const limitedLocations = filteredLocations.slice(0, 2);
+  const limitedLocations = filteredLocations.slice(0, 4);
 
   const filteredProductsByName = filteredProducts.filter((product) =>
     product.name.toLowerCase().includes(productSearchTerm.toLowerCase())
@@ -84,7 +84,7 @@ const HomePage = () => {
         </div>
       </div>
       <div className="flex items-center justify-center pt-2 px-4">
-        <div className={`bg-base-100 rounded-lg shadow-cl w-full max-w-6xl ${theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-base-200 text-black'}`}>
+        <div className={`bg-base-100 rounded-lg shadow-cl w-full max-w-6xl ${theme === 'dark' ? 'from-green-500 to-lime-400' : 'from-green-400 to-lime-500'}`}>
           <div className="flex flex-col h-full rounded-lg overflow-hidden p-6" >
             <h1 className={`text-3xl font-bold bg-gradient-to-r  text-transparent bg-clip-text text-center mb-8`}>
               Items for Rent

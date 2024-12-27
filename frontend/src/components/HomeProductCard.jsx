@@ -33,7 +33,7 @@ const HomeProductCard = ({ product }) => {
         </Heading>
 
         <Text fontWeight="bold" fontSize="xl" color={currentTheme.text} mb={4}>
-          Rs.{product.price}
+          Rs.{product.price} / day
           {product.address && (
             <>
               <br />

@@ -127,7 +127,7 @@ const MyProductCard = ({ product }) => {
         </Heading>
 
         <Text fontWeight="bold" fontSize="lg" color={textColor} mb={2}>
-          Rs.{product.price}
+          Rs.{product.price} / day
         </Text>
 
         {product.address && (
