@@ -1,11 +1,14 @@
 import { Box, Button, Heading, HStack, Image, Text } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 import { useThemeStore } from "../store/useThemeStore";
+import { useAuthStore } from "../store/useAuthStore";
 import { themeMapping } from "../constants/themeMapping";
 
 const HomeProductCard = ({ product }) => {
   const { theme } = useThemeStore();
+  const { authUser } = useAuthStore();
   const currentTheme = themeMapping[theme] || themeMapping['light'];
+  
 
   return (
     <Box
@@ -43,6 +46,14 @@ const HomeProductCard = ({ product }) => {
               {product.description}
             </>
           )}
+        </Text>
+
+        <Text
+          fontSize="lg"
+          color="gray.600"
+          mb={4} // Margin at the bottom to space it from the button
+        >
+          Posted by {authUser?.fullName}
         </Text>
 
         <HStack spacing={2}>

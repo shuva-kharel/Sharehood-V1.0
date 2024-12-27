@@ -86,7 +86,7 @@ const HomePage = () => {
       <div className="flex items-center justify-center pt-2 px-4">
         <div className={`bg-base-100 rounded-lg shadow-cl w-full max-w-6xl ${theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-base-200 text-black'}`}>
           <div className="flex flex-col h-full rounded-lg overflow-hidden p-6" >
-            <h1 className={`text-3xl font-bold bg-gradient-to-r ${theme === 'dark' ? 'from-blue-500 to-cyan-400' : 'from-cyan-400 to-blue-500'} text-transparent bg-clip-text text-center mb-8`}>
+            <h1 className={`text-3xl font-bold bg-gradient-to-r  text-transparent bg-clip-text text-center mb-8`}>
               Items for Rent
             </h1>
 

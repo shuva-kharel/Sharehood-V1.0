@@ -74,9 +74,12 @@ const Navbar = () => {
           {/* Title section */}
           <div className="flex items-center gap-4 flex-grow">
             <Link to="/" className="flex items-center gap-2.5 hover:opacity-80 transition-all">
-              <h1 className="text-xl font-bold">Sharehood</h1>
+              <h1 className={`text-xl font-bold bg-clip-text text-transparent ${theme === 'dark' ? 'from-green-500 to-lime-400' : 'from-green-400 to-lime-500'} bg-gradient-to-r`}>
+                Sharehood
+              </h1>
             </Link>
           </div>
+
 
           {/* Right-aligned buttons */}
           <div className="flex items-center gap-2">
